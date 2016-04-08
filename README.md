@@ -1158,9 +1158,9 @@ A fly weight but powerful xml2html util!
 ###只需要两行代码：
 ```java
 File myXML = Source.getFile("conf.xml");
-XmlToHtml x2h=new XmlToHtml();
-String html=x2h.toHtml(myXML);
-System.out.println(html);
+Xml2Html x2h=new Xml2Table();//这里支持table和div。
+String table=x2h.toHtml(myXML);
+System.out.println(table);
 ```
 
 ###转换结果：
