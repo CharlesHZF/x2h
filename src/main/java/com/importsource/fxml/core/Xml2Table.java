@@ -1,6 +1,7 @@
 package com.importsource.fxml.core;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.Iterator;
 
 import org.dom4j.Attribute;
@@ -17,22 +18,22 @@ import com.importsource.conf.Source;
  *
  */
 public class Xml2Table implements Xml2Html{
-	private  String backgroundColor;
-	private  String color;
+	private  String backgroundColor="#fff";
+	private  String color="#000";
 	
-	private  int c_r=0;
-	private  int c_g=0;
-	private  int c_b=0;
+	private  int c_r=255;
+	private  int c_g=255;
+	private  int c_b=255;
 	
-	private  int b_r=255;
-	private  int b_g=255;
-	private  int b_b=255;
+	private  int b_r=0;
+	private  int b_g=0;
+	private  int b_b=0;
 
 	public static void main(String[] args) {
 		File myXML = Source.getFile("conf.xml");
-		Xml2Table x2h=new Xml2Table();
-		String html=x2h.toHtml(myXML);
-		System.out.println(html);
+		Xml2Html x2h=new Xml2Table();
+		String table=x2h.toHtml(myXML);
+		System.out.println(table);
 	}
 
 	/**
@@ -58,10 +59,10 @@ public class Xml2Table implements Xml2Html{
 	
 
 	private  StringBuilder append(Element root, StringBuilder sb) {
-		newColor();
-		sb.append("<table border=\"1\" style=\"color:"+color+";backgroud-color:"+backgroundColor+";border-collapse:collapse;margin:10px;\">");
+		sb.append("<table border=\"1\" style=\"color:"+color+";background-color:"+backgroundColor+";border-collapse:collapse;margin:10px;\">");
 		for (@SuppressWarnings("unchecked")
 		Iterator<Element> fathers = (Iterator<Element>) root.elementIterator(); fathers.hasNext();) {
+			
 		    //从根目录开始建立table
 			//<table>
 			//   <tr>
@@ -76,6 +77,7 @@ public class Xml2Table implements Xml2Html{
 			
 			//搞第一行
 			Element father = (Element) fathers.next();//properties
+			
 			sb.append("<tr>");
 			sb.append("<td style=\"font-weight:bold;\">");
 			appendAttribute(sb, father);
@@ -91,9 +93,9 @@ public class Xml2Table implements Xml2Html{
 				if(e.isTextOnly()){
 					sb.append(e.getText());
 				}else{
+					
 					append(e,sb);
 				}
-				
 				sb.append("</td>");
 			}//properities里边的东西
 			sb.append("");
@@ -107,6 +109,17 @@ public class Xml2Table implements Xml2Html{
 		}
 		sb.append("</table>");
 		return sb;
+	}
+
+	private void clearColor() {
+		c_r=255;
+		c_g=255;
+		c_b=255;
+		
+		b_r=0;
+		b_g=0;
+		b_b=0;
+		
 	}
 
 	private void appendAttribute(StringBuilder sb, Element e) {
@@ -136,16 +149,16 @@ public class Xml2Table implements Xml2Html{
 
 	private  String getBackgroundColoeHex() {
 		//OperaColor operaColor=new OperaColor(r, g, b)
-		b_r=b_r-10;
-		b_g=b_g-10;
-		b_b=b_b-10;
-		return b_r+" "+b_g+" "+b_b;
+		b_r=b_r+10;
+		b_g=b_g+10;
+		b_b=b_b+10;
+		return new OperaColor(b_r,b_g,b_b).toHex(b_r,b_g,b_b);
 	}
 
 	private  String getColorHex() {
-		c_r=c_r+10;
-		c_g=c_g+10;
-		c_b=c_b+10;
-		return c_r+" "+c_g+" "+c_b;
+		c_r=c_r-10;
+		c_g=c_g-10;
+		c_b=c_b-10;
+		return new OperaColor(c_r,c_g,c_b).toHex(c_r,c_g,c_b);
 	}
 }

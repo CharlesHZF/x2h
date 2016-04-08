@@ -30,9 +30,9 @@ public class Xml2Div implements Xml2Html {
 
 	public static void main(String[] args) {
 		File myXML = Source.getFile("conf.xml");
-		Xml2Div x2h=new Xml2Div();
-		String html=x2h.toHtml(myXML);
-		System.out.println(html);
+		Xml2Html x2h=new Xml2Div();
+		String div=x2h.toHtml(myXML);
+		System.out.println(div);
 	}
 
 	/**
